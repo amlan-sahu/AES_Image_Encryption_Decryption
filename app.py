@@ -10,6 +10,12 @@ import io
 
 app = Flask(__name__)
 
+from flask import send_from_directory
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
 # Configure folders
 BASE_DIR = "/tmp"
 
@@ -78,8 +84,7 @@ def upload_file():
         return jsonify({
             'message': 'File uploaded successfully',
             'filename': filename,
-            'url': url_for('static', filename='uploads/' + filename),
-            'shape': shape
+            'url': url_for('uploaded_file', filename=filename),
         })
     return jsonify({'error': 'Invalid file type'}), 400
 
@@ -139,7 +144,7 @@ def encrypt():
         return jsonify({
             'message': 'Encryption successful',
             'key': key.hex(),
-            'encrypted_url': url_for('static', filename='encrypted/' + noisy_filename),
+            'encrypted_url': url_for('encrypted_file', filename=noisy_filename),
             'bin_filename': bin_filename,
             'encrypt_time': encrypt_time
         })
@@ -191,13 +196,21 @@ def decrypt():
         
         return jsonify({
             'message': 'Decryption successful',
-            'decrypted_url': url_for('static', filename='decrypted/' + decrypted_filename),
+            'decrypted_url': url_for('decrypted_file', filename=decrypted_filename),
             'decrypt_time': decrypt_time
         })
     except ValueError as e:
         return jsonify({'error': 'Incorrect key or corrupted file.'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/encrypted/<filename>')
+def encrypted_file(filename):
+    return send_from_directory(ENCRYPTED_FOLDER, filename)
+
+@app.route('/decrypted/<filename>')
+def decrypted_file(filename):
+    return send_from_directory(DECRYPTED_FOLDER, filename)
 
 if __name__ == "__main__":
     app.run()
