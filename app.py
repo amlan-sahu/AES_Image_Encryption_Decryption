@@ -11,9 +11,11 @@ import io
 app = Flask(__name__)
 
 # Configure folders
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
-ENCRYPTED_FOLDER = os.path.join('static', 'encrypted')
-DECRYPTED_FOLDER = os.path.join('static', 'decrypted')
+BASE_DIR = "/tmp"
+
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
+ENCRYPTED_FOLDER = os.path.join(BASE_DIR, 'encrypted')
+DECRYPTED_FOLDER = os.path.join(BASE_DIR, 'decrypted')
 
 for folder in [UPLOAD_FOLDER, ENCRYPTED_FOLDER, DECRYPTED_FOLDER]:
     os.makedirs(folder, exist_ok=True)
