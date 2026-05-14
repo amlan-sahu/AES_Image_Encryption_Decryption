@@ -54,7 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- File Upload Logic ---
-    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'BUTTON') {
+        fileInput.click();
+    }
+});
 
     dropZone.addEventListener('dragover', (e) => {
         e.preventDefault();
