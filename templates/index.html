@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES Image Encryption & Decryption System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>AES Image Encryption <span class="neon-text">& Decryption System</span></h1>
+            <p class="subtitle">Secure your images using Advanced Encryption Standard (AES-128)</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section glass-panel" id="uploadPanel">
+                <div class="upload-area" id="dropZone">
+                    <i class="fa-solid fa-cloud-arrow-up fa-3x"></i>
+                    <p>Drag and drop your image here</p>
+                    <p class="small-text">or</p>
+                    <label for="fileInput" class="btn primary-btn">Browse Files</label>
+                    <input type="file" id="fileInput" accept=".jpg, .jpeg, .png" hidden>
+                </div>
+            </section>
+
+            <!-- Previews Section -->
+            <section class="previews-section" id="previewsSection" style="display: none;">
+                
+                <!-- Original Image Card -->
+                <div class="card glass-panel" id="originalCard">
+                    <h3><i class="fa-regular fa-image"></i> Original Image</h3>
+                    <div class="image-container">
+                        <div class="spinner" id="uploadSpinner" style="display: none;"></div>
+                        <img id="originalImg" src="" alt="Original Preview" class="preview-img">
+                    </div>
+                </div>
+
+                <!-- Encrypted Image Card -->
+                <div class="card glass-panel" id="encryptedCard">
+                    <h3><i class="fa-solid fa-lock"></i> Encrypted Image</h3>
+                    <div class="image-container">
+                        <div class="spinner" id="encryptSpinner" style="display: none;"></div>
+                        <img id="encryptedImg" src="" alt="Encrypted Preview" class="preview-img" style="opacity: 0;">
+                        <div class="placeholder-text" id="encryptPlaceholder">Pending Encryption</div>
+                    </div>
+                    <div class="action-bar">
+                        <button id="encryptBtn" class="btn action-btn">
+                            <i class="fa-solid fa-key"></i> Encrypt
+                        </button>
+                        <a id="downloadEncryptedBtn" class="btn icon-btn" download style="display: none;" title="Download Encrypted Image">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    </div>
+                    <p class="time-stat" id="encryptTime"></p>
+                </div>
+
+                <!-- Decrypted Image Card -->
+                <div class="card glass-panel" id="decryptedCard">
+                    <h3><i class="fa-solid fa-lock-open"></i> Decrypted Image</h3>
+                    <div class="image-container">
+                        <div class="spinner" id="decryptSpinner" style="display: none;"></div>
+                        <img id="decryptedImg" src="" alt="Decrypted Preview" class="preview-img" style="opacity: 0;">
+                        <div class="placeholder-text" id="decryptPlaceholder">Pending Decryption</div>
+                    </div>
+                    <div class="action-bar">
+                        <button id="decryptBtn" class="btn action-btn" disabled>
+                            <i class="fa-solid fa-unlock"></i> Decrypt
+                        </button>
+                        <a id="downloadDecryptedBtn" class="btn icon-btn" download style="display: none;" title="Download Decrypted Image">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    </div>
+                    <p class="time-stat" id="decryptTime"></p>
+                </div>
+
+            </section>
+
+            <!-- AES Key Section -->
+            <section class="key-section glass-panel" id="keySection" style="display: none;">
+                <div class="key-container">
+                    <label for="aesKeyInput">AES Secret Key (Hex):</label>
+                    <div class="input-group">
+                        <input type="text" id="aesKeyInput" readonly>
+                        <button id="copyKeyBtn" class="btn icon-btn" title="Copy Key">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                    <p class="small-text info-text">Keep this key safe. It is required to decrypt the image.</p>
+                </div>
+            </section>
+
+            <!-- Notification Toast -->
+            <div id="toast" class="toast glass-panel">
+                <i id="toastIcon" class="fa-solid"></i>
+                <span id="toastMessage">Notification message here</span>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
